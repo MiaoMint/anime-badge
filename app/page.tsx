@@ -26,7 +26,7 @@ export default function HomePage() {
   const [autoRotate, setAutoRotate] = useState(false);
 
   return (
-    <div className="h-screen flex">
+    <div className="h-screen flex flex-col md:flex-row">
       <div className="relative size-full bg-slate-950">
         <div className="absolute -z-0 inset-0 bg-[radial-gradient(circle_500px_at_50%_200px,#3e3e3e,transparent)]" />
         <Canvas className="size-full" shadows dpr={[1, 2]} camera={{ fov: 50 }}>
@@ -38,7 +38,7 @@ export default function HomePage() {
           <OrbitControls autoRotate={autoRotate} />
         </Canvas>
       </div>
-      <div className="bg-slate-950 p-4 flex flex-col gap-4 flex-shrink-0 w-[300px]">
+      <div className="bg-slate-950 p-4  flex-col gap-4 flex-shrink-0 md:w-[300px] h-[300px] md:flex">
         <div className="flex flex-col gap-4 flex-1">
           <div className="grid w-full items-center gap-1.5">
             <Label>Model</Label>
