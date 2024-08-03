@@ -17,13 +17,13 @@ type GLTFResult = GLTF & {
 };
 
 interface ModelProps extends React.ComponentProps<"group"> {
-  image?: File;
+  imageUrl?: string;
 }
 
 export function Model(props: ModelProps) {
   const { nodes, materials } = useGLTF("/scene.gltf") as GLTFResult;
-  const getMaterial = (image: File) => {
-    const texture = new THREE.TextureLoader().load(URL.createObjectURL(image));
+  const getMaterial = (image: string) => {
+    const texture = new THREE.TextureLoader().load(image);
     texture.colorSpace = THREE.SRGBColorSpace;
     const material = new THREE.MeshStandardMaterial({
       map: texture,
@@ -31,7 +31,9 @@ export function Model(props: ModelProps) {
     return material;
   };
 
-  const material = props.image ? getMaterial(props.image) : materials.main;
+  const material = props.imageUrl
+    ? getMaterial(props.imageUrl)
+    : materials.main;
 
   return (
     <group {...props} dispose={null}>
