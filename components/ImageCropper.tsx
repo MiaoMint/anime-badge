@@ -22,6 +22,8 @@ export default function ImageCropper(props: ImageCropperProps) {
       initialAspectRatio={1}
       guides={true}
       crop={onCrop}
+      aspectRatio={1}
+      viewMode={1}
       ref={cropperRef}
     />
   );
