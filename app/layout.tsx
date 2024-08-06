@@ -16,7 +16,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "dark")}>{children}</body>
+      <body
+        className={cn([
+          inter.className,
+          "min-h-screen bg-background font-sans antialiased dark",
+        ])}
+      >
+        {children}
+      </body>
     </html>
   );
 }

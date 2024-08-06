@@ -3,6 +3,7 @@ import * as THREE from "three";
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
+import { ModelProps } from "./Model1";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -16,12 +17,8 @@ type GLTFResult = GLTF & {
   };
 };
 
-interface ModelProps extends React.ComponentProps<"group"> {
-  imageUrl?: string;
-}
-
-export function Model(props: ModelProps) {
-  const { nodes, materials } = useGLTF("/scene.gltf") as GLTFResult;
+export function Model2(props: ModelProps) {
+  const { nodes, materials } = useGLTF("/model2.gltf") as GLTFResult;
   const getMaterial = (image: string) => {
     const texture = new THREE.TextureLoader().load(image);
     texture.colorSpace = THREE.SRGBColorSpace;
@@ -66,4 +63,4 @@ export function Model(props: ModelProps) {
   );
 }
 
-useGLTF.preload("/scene.gltf");
+useGLTF.preload("/model2.gltf");

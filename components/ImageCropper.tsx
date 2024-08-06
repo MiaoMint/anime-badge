@@ -18,10 +18,10 @@ export default function ImageCropper(props: ImageCropperProps) {
   return (
     <Cropper
       src={props.imageUrl}
-      style={{ height: 300, width: "100%" }}
+      style={{ maxHeight: 300, width: "100%" }}
       initialAspectRatio={1}
       guides={true}
-      crop={onCrop}
+      cropend={onCrop}
       aspectRatio={1}
       viewMode={1}
       ref={cropperRef}

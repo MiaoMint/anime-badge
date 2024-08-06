@@ -1,10 +1,9 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import dynamic from "next/dynamic";
 import { OrbitControls, Stage } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Suspense, useRef, useState } from "react";
+import { Component, FC, ReactNode, Suspense, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -16,11 +15,8 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import html2canvas from "html2canvas";
 import ImageCropper from "@/components/ImageCropper";
-
-const BadgeModel = dynamic(
-  () => import("../components/Model").then((mod) => mod.Model),
-  { ssr: false }
-);
+import { Model1 } from "@/components/models/Model1";
+import { Model2 } from "@/components/models/Model2";
 
 export default function HomePage() {
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
@@ -28,6 +24,21 @@ export default function HomePage() {
     undefined
   );
   const [autoRotate, setAutoRotate] = useState(false);
+  const [currentModel, setModel] = useState("Model1");
+
+  const modelList = [
+    {
+      name: "Model1",
+      component: Model1,
+    },
+    {
+      name: "Model2",
+      component: Model2,
+    },
+  ];
+  const Model = modelList.find(
+    (model) => model.name === currentModel
+  )!.component;
 
   const handleCrop = (url: string) => {
     if (url != cropImageURL) {
@@ -46,10 +57,7 @@ export default function HomePage() {
 
   return (
     <div className="h-screen md:flex">
-      <div
-        className="relative size-full bg-slate-950 h-[400px] md:h-full"
-        id="viewer"
-      >
+      <div className="relative size-full h-[400px] md:h-full" id="viewer">
         <div className="absolute -z-0 inset-0 bg-[radial-gradient(circle_500px_at_50%_200px,#3e3e3e,transparent)]" />
         <Canvas gl={{ preserveDrawingBuffer: true }} shadows>
           <Suspense fallback={null}>
@@ -60,7 +68,7 @@ export default function HomePage() {
               shadows
               adjustCamera
             >
-              <BadgeModel imageUrl={cropImageURL} />
+              <Model imageUrl={cropImageURL} />
             </Stage>
           </Suspense>
           <OrbitControls autoRotate={autoRotate} />
@@ -70,12 +78,20 @@ export default function HomePage() {
         <div className="flex flex-col gap-4 flex-1">
           <div className="grid w-full items-center gap-1.5">
             <Label>Model</Label>
-            <Select>
+            <Select
+              onValueChange={(value) => {
+                setModel(value);
+              }}
+            >
               <SelectTrigger>
-                <SelectValue placeholder="Anime badge" />
+                <SelectValue placeholder="Model1" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="anime-badge">Anime badge</SelectItem>
+                {modelList.map((model, index) => (
+                  <SelectItem key={index} value={model.name}>
+                    {model.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
